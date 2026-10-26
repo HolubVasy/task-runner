@@ -7,6 +7,8 @@ import sys
 import time
 
 sys.stdin.read()
+if os.environ.get("FAKE_ARGS"):
+    open(os.environ["FAKE_ARGS"], "w").write(" ".join(sys.argv[1:]))
 state = os.environ["FAKE_STATE"]
 n = int(open(state).read()) + 1 if os.path.exists(state) else 1
 open(state, "w").write(str(n))

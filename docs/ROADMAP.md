@@ -7,8 +7,10 @@
   `--verbose`, `--max-budget-usd`, `--permission-mode acceptEdits` and `--allowedTools`, and reports the cost in
   the final result event.
 
+- On the owner's Windows machine (Claude Code 2.1.302): the unit tests pass, including the kill of a silent run, and `claude -p` reads the prompt from stdin and answers in JSON. The default model of that CLI is Opus 5.5, hence the `--model` option with sonnet as the default here.
+
 ## Not verified
-- The same flags on the owner's Windows machine and the process tree kill with `taskkill`.
+- A real multi-run task on Windows with the allowed tools and the skill.
 - That the standing prompt makes the model end with the status line every time. The runner treats a missing line as
   `unknown`, which counts as no progress.
 - That Claude Code finds the skill file by the path in the prompt. It is read as a plain file.

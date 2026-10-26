@@ -86,6 +86,15 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(runner.run_task(self.cfg(silence_seconds=2)), "failed")
         self.assertIn("silent", self.journal()[0]["killed"])
 
+    def test_the_model_flag_is_passed(self):
+        args = Path(self.tmp.name) / "args"
+        os.environ["FAKE_ARGS"] = str(args)
+        self.addCleanup(lambda: os.environ.pop("FAKE_ARGS", None))
+        runner.run_task(self.cfg())
+        self.assertIn("--model sonnet", args.read_text())
+        runner.run_task(self.cfg(model=""))
+        self.assertNotIn("--model", args.read_text())
+
     def test_max_runs_ends_in_exhausted(self):
         os.environ.update(FAKE_STATUSES="continue", FAKE_TOUCH="1")
         self.assertEqual(runner.run_task(self.cfg(max_runs=2)), "exhausted")

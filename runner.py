@@ -46,6 +46,7 @@ class Config:
     stall_runs: int = 2
     ci_timeout_minutes: int = 45
     billing: str = "max"
+    model: str = "sonnet"
     allowed_tools: str = DEFAULT_TOOLS
     logs: Path = field(default_factory=lambda: Path.home() / ".task-runner")
     note: str = ""
@@ -107,6 +108,8 @@ def run_claude(cfg, prompt, raw_log):
     cmd = cfg.claude_cmd + ["-p", "--output-format", "stream-json", "--verbose", "--max-budget-usd",
                             str(cfg.max_usd_per_run), "--permission-mode", "acceptEdits",
                             "--allowedTools", cfg.allowed_tools]
+    if cfg.model:
+        cmd += ["--model", cfg.model]
     group = {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP} if os.name == "nt" else {"start_new_session": True}
     proc = subprocess.Popen(cmd, cwd=cfg.repo, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                             text=True, encoding="utf-8", errors="replace", env=child_env(cfg.billing), **group)
@@ -219,6 +222,7 @@ def parse_args(argv):
     p.add_argument("--stall-runs", type=int, default=2, help="runs in a row without any change before stopping")
     p.add_argument("--billing", choices=("max", "api"), default="max",
                    help="max removes ANTHROPIC_API_KEY so the subscription pays; api keeps it")
+    p.add_argument("--model", default="sonnet", help="model alias for claude --model; empty uses the CLI default (Opus uses the Max limits fastest)")
     p.add_argument("--allowed-tools", default=DEFAULT_TOOLS)
     p.add_argument("--logs", default=str(Path.home() / ".task-runner"))
     p.add_argument("--note", default="", help="a note for the first run")
@@ -231,7 +235,7 @@ def main(argv=None):
     cmd = [a.claude_cmd] if a.claude_cmd else [shutil.which("claude") or "claude"]
     cfg = Config(repo=Path(a.repo), task=a.task, skill=a.skill, claude_cmd=cmd, max_runs=a.max_runs,
                  max_usd_per_run=a.max_usd_per_run, max_usd_total=a.max_usd_total, max_minutes=a.max_minutes,
-                 silence_seconds=a.silence_seconds, stall_runs=a.stall_runs, billing=a.billing,
+                 silence_seconds=a.silence_seconds, stall_runs=a.stall_runs, billing=a.billing, model=a.model,
                  allowed_tools=a.allowed_tools, logs=Path(a.logs), note=a.note)
     if not (cfg.repo / ".git").exists():
         raise SystemExit(f"{cfg.repo} is not a git checkout")
