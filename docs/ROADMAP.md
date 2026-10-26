@@ -9,8 +9,9 @@
 
 - On the owner's Windows machine (Claude Code 2.1.302): the unit tests pass, including the kill of a silent run, and `claude -p` reads the prompt from stdin and answers in JSON. The default model of that CLI is Opus 5.5, hence the `--model` option with sonnet as the default here.
 
+- A real three run task on Windows (scratch S000, Opus): continue, continue, done, every run changed the repository, the runner stopped by itself, 0.87 USD at list price. It drew on the Max limits (docs/BILLING.md).
+
 ## Not verified
-- A real multi-run task on Windows with the allowed tools and the skill.
 - That the standing prompt makes the model end with the status line every time. The runner treats a missing line as
   `unknown`, which counts as no progress.
 - That Claude Code finds the skill file by the path in the prompt. It is read as a plain file.
