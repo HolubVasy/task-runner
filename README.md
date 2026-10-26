@@ -57,3 +57,12 @@ see docs/ROADMAP.md.
 - docs/PRINCIPLES.md, the concept: definitions and norms.
 - docs/BILLING.md, which wallet pays for what.
 - docs/ROADMAP.md, what is verified and what comes next.
+
+## First try with a real claude
+
+```
+python scripts\make_scratch.py C:\work\scratch
+python runner.py --repo C:\work\scratch --task S000 --skill SKILL.md --max-runs 5 --max-usd-per-run 1 --max-usd-total 3
+```
+
+The scratch task has three steps and the skill asks for one step per run, so the loop should show three runs.
