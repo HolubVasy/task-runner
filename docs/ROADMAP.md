@@ -23,6 +23,11 @@
 4. Several tasks in a queue, one after another, each by its own record. No parallel tasks until one is stable.
 
 ## Related
+- [AI Development Factory MVP](https://app.notion.com/p/4023e7c2538a81d09d20de4ea4a678e5), the owner's plan and
+  decisions. Its Stage 1 criterion is the target here: one task from the order to a checked pull request and a report,
+  without the owner driving GitHub by hand. Its open items that touch this runner: the priority of consoles (Claude
+  Max, then Codex CLI, then Gemini CLI), the paid API key as a reserve of the machine, and the ministry model of
+  roles (position of the unit versus job description of the employee).
 The factory polygon (poc-agent repository, folder polygon) played the roles of manager, orchestrator, supervisor
 and worker on real tasks. Its lessons that apply here: the workplace is prepared by deterministic code, a stuck
 loop is broken by a rule near where it happens, a stop leaves no tails, and an unreadable judgement is never passed

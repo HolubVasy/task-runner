@@ -10,6 +10,16 @@ neither: a run reads the task's recorded checkpoint in Git, takes the next step,
 The next run starts fresh from the same record. State lives in Git, not in a model's memory, so a stop is
 resumable and any run can be replaced.
 
+## Where it fits
+
+This is the first working cut of the operator of the AI Development Factory, described in
+[AI Development Factory MVP](https://app.notion.com/p/4023e7c2538a81d09d20de4ea4a678e5) (Notion). Stage 1 of that
+plan is to prove the machine: one short command makes Claude Code carry a real task to a checked pull request. The
+runner is that command with the watch around it. Any console can call it (Claude on the Max subscription, Codex CLI
+or Gemini CLI as the fallback consoles of the same page), on Windows or on the VPS through ForPost, because it is
+only a program with arguments. Stage 2 of the plan (an orchestrator and a worker with its supervisor in containers)
+starts only after Stage 1 and a separate decision of the owner.
+
 ## What it is not
 
 Not a task tracker (tasks live in the target repository), not an orchestrator of many tasks, not a merge or deploy
